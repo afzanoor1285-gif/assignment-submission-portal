@@ -69,8 +69,9 @@ def validate_submission(data: dict):
     # 1. Validate required fields
     if not name:
         return False, "Student name is required.", None
-    if not reg_no:
-        return False, "Registration number is required.", None
+    # DEFECT INTRODUCED FOR CI DEMONSTRATION:
+    # if not reg_no:
+    #     return False, "Registration number is required.", None
     if not assignment_title:
         return False, "Assignment title is required.", None
     if not submission_url:
