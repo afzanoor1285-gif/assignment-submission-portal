@@ -10,7 +10,8 @@ from email import encoders
 import pytest
 import requests
 
-REPORT_FILE = "test-report.json"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPORT_FILE = os.path.join(SCRIPT_DIR, "test-report.json")
 
 class PytestReportCollector:
     """Pytest plugin to collect test execution results."""

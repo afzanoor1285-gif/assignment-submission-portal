@@ -11,7 +11,8 @@ from datetime import datetime
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 DEFAULT_PORT = 5050
-REPORT_FILENAME = "test-report.json"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPORT_FILENAME = os.path.join(SCRIPT_DIR, "test-report.json")
 DEFAULT_REPO = os.environ.get("GITHUB_REPOSITORY", "afzanoor1285-gif/assignment-submission-portal")
 def get_github_token():
     """Retrieve GitHub token from environment variable or git credential manager."""
