@@ -1,0 +1,94 @@
+name: DevOps CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # -------------------------------------------------------------
+  # Job 1: Automated Testing & Report Delivery (Requirements 3 & 4)
+  # -------------------------------------------------------------
+  test:
+    name: Run Automated Tests & Dispatch Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Execute Tests and Deliver Report to Receiver & Email
+        # This step runs tests, builds the exact test-report.json schema,
+        # delivers it to the local receiver (via tunnel or direct),
+        # delivers email if configured (Bonus 2), and fails if any test fails.
+        env:
+          RECEIVER_URL: ${{ secrets.RECEIVER_URL }}
+          MAIL_SERVER: ${{ secrets.MAIL_SERVER || 'smtp.gmail.com' }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT || '587' }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+          MAIL_RECIPIENT: ${{ secrets.MAIL_RECIPIENT }}
+        run: |
+          python test_runner.py
+
+      - name: Archive Test Report Artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-json
+          path: test-report.json
+          if-no-files-found: warn
+
+  # -------------------------------------------------------------
+  # Job 2: Conditional Deployment to GitHub Pages (Bonus Task 1)
+  # 5 Marks: Automatically publish static frontend to GitHub Pages
+  # ONLY when all tests pass. A failing run leaves previous unchanged.
+  # -------------------------------------------------------------
+  deploy-pages:
+    name: Conditional Deploy to GitHub Pages (Bonus Task 1)
+    needs: test
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master') && success()
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Static Frontend Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "docs"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

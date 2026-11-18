@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assignment Submission Portal - COMSATS University</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand-group">
+        <div class="brand-icon">🎓</div>
+        <div>
+          <h1 class="brand-title">COMSATS UNIVERSITY ISLAMABAD</h1>
+          <p class="brand-subtitle">Attock Campus &bull; Department of Computer Science &bull; CSC418 DevOps</p>
+        </div>
+      </div>
+      <div id="mode-badge" class="badge badge-info">Detecting Mode...</div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="intro-card">
+      <h2>Assignment Submission Portal</h2>
+      <p>Submit your cloud and DevOps assignments below. Provide your full name, official registration number, assignment title, and public repository or submission URL. File uploading is not required; a valid HTTP or HTTPS submission link is sufficient.</p>
+    </div>
+
+    <!-- Alert Box for Notifications -->
+    <div id="alert-box" class="alert hidden" role="alert"></div>
+
+    <div class="grid-layout">
+      <!-- Submission Form Card -->
+      <section class="card form-card">
+        <div class="card-header">
+          <h3>📝 New Submission</h3>
+          <span class="required-hint">* All fields are mandatory</span>
+        </div>
+        
+        <form id="submission-form" novalidate>
+          <div class="form-group">
+            <label for="name">Student Full Name <span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="e.g. Muhammad Ali" required autocomplete="name">
+            <small class="field-error" id="name-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="reg_no">Registration Number <span class="req">*</span></label>
+            <input type="text" id="reg_no" name="reg_no" placeholder="e.g. SP21-BCS-045" required>
+            <small class="field-error" id="reg_no-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="assignment_title">Assignment Title <span class="req">*</span></label>
+            <input type="text" id="assignment_title" name="assignment_title" placeholder="e.g. DevOps Lab Mid - CI/CD Pipeline" required>
+            <small class="field-error" id="title-error"></small>
+          </div>
+
+          <div class="form-group">
+            <label for="submission_url">Submission URL <span class="req">*</span></label>
+            <input type="url" id="submission_url" name="submission_url" placeholder="https://github.com/username/repo" required>
+            <small class="field-hint">Must start with http:// or https:// and include a valid domain</small>
+            <small class="field-error" id="url-error"></small>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="submit-btn" class="btn btn-primary">
+              <span class="btn-text">Submit Assignment</span>
+            </button>
+            <button type="reset" id="reset-btn" class="btn btn-secondary">Clear Form</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Submissions List Card -->
+      <section class="card table-card">
+        <div class="card-header">
+          <div class="title-with-count">
+            <h3>📋 Saved Submissions</h3>
+            <span id="submission-count" class="counter-badge">0</span>
+          </div>
+          <button id="refresh-btn" class="btn btn-sm btn-outline">🔄 Refresh</button>
+        </div>
+
+        <div class="table-responsive">
+          <table class="submissions-table" id="submissions-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">#</th>
+                <th>Student</th>
+                <th>Reg. Number</th>
+                <th>Assignment</th>
+                <th>Submission URL</th>
+                <th>Submitted At</th>
+              </tr>
+            </thead>
+            <tbody id="submissions-body">
+              <tr class="empty-row">
+                <td colspan="6">No submissions recorded yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 COMSATS University Islamabad, Attock Campus &bull; CSC418 DevOps for Cloud Computing</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

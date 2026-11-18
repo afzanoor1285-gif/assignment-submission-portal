@@ -1,0 +1,48 @@
+{
+  "repository": "COMSATS-Attock/assignment-submission-portal",
+  "branch": "main",
+  "commit_sha": "local-development-revision",
+  "pipeline_run_id": "local-1794979390",
+  "execution_timestamp": "2026-11-18T05:23:10.504137+00:00",
+  "overall_status": "PASSED",
+  "total_tests": 5,
+  "passed_tests": 5,
+  "failed_tests": 0,
+  "tests": [
+    {
+      "name": "test_complete_details_and_valid_url",
+      "full_id": "tests/test_submission.py::test_complete_details_and_valid_url",
+      "result": "PASSED",
+      "duration_seconds": 0.0018,
+      "failure_message": null
+    },
+    {
+      "name": "test_missing_registration_number",
+      "full_id": "tests/test_submission.py::test_missing_registration_number",
+      "result": "PASSED",
+      "duration_seconds": 0.0011,
+      "failure_message": null
+    },
+    {
+      "name": "test_invalid_submission_url",
+      "full_id": "tests/test_submission.py::test_invalid_submission_url",
+      "result": "PASSED",
+      "duration_seconds": 0.001,
+      "failure_message": null
+    },
+    {
+      "name": "test_missing_student_name",
+      "full_id": "tests/test_submission.py::test_missing_student_name",
+      "result": "PASSED",
+      "duration_seconds": 0.0008,
+      "failure_message": null
+    },
+    {
+      "name": "test_missing_assignment_title",
+      "full_id": "tests/test_submission.py::test_missing_assignment_title",
+      "result": "PASSED",
+      "duration_seconds": 0.0007,
+      "failure_message": null
+    }
+  ]
+}
