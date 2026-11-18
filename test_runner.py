@@ -57,10 +57,23 @@ def build_test_report(reports, exit_code):
     overall_status = "PASSED" if (failed_count == 0 and exit_code == 0 and total_count > 0) else "FAILED"
 
     # Capture CI or local environment metadata
-    repo_name = os.environ.get("GITHUB_REPOSITORY", "COMSATS-Attock/assignment-submission-portal")
-    branch = os.environ.get("GITHUB_REF_NAME", "main")
-    commit_sha = os.environ.get("GITHUB_SHA", "local-development-revision")
-    run_id = os.environ.get("GITHUB_RUN_ID", f"local-{int(datetime.now().timestamp())}")
+    repo_name = os.environ.get("GITHUB_REPOSITORY", "afzanoor1285-gif/assignment-submission-portal")
+    
+    if "GITHUB_SHA" in os.environ:
+        commit_sha = os.environ.get("GITHUB_SHA")
+        branch = os.environ.get("GITHUB_REF_NAME", "main")
+        run_id = str(os.environ.get("GITHUB_RUN_ID", f"run-{int(datetime.now().timestamp())}"))
+    else:
+        # Local execution: extract actual git details if available
+        try:
+            import subprocess
+            commit_sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+            branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], text=True).strip()
+        except Exception:
+            commit_sha = "local-commit-" + datetime.now().strftime("%Y%m%d%H%M%S")
+            branch = "main"
+        run_id = f"local-{int(datetime.now().timestamp())}"
+        
     timestamp = datetime.now(timezone.utc).isoformat()
 
     report = {
@@ -91,7 +104,10 @@ def send_report_to_receiver(report):
     Delivers the test report via HTTP POST to the local receiver or tunnel URL.
     Meets Requirement 4 (Send report to localhost and save JSON).
     """
-    receiver_url = os.environ.get("RECEIVER_URL", "http://localhost:5050/report")
+    raw_url = os.environ.get("RECEIVER_URL", "").strip()
+    receiver_url = raw_url if raw_url else "http://localhost:5050/report"
+    if not receiver_url.startswith("http://") and not receiver_url.startswith("https://"):
+        receiver_url = f"https://{receiver_url}"
     print(f"\n📡 Attempting to send report to receiver at: {receiver_url}")
     
     try:

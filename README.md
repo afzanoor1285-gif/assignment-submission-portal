@@ -83,7 +83,7 @@ Ensure Python 3.10+ and Git are installed on your workstation.
 
 ### 1. Clone Repository & Install Dependencies
 ```bash
-git clone <YOUR_GITHUB_REPO_URL>
+git clone https://github.com/afzanoor1285-gif/assignment-submission-portal.git
 cd assignment-submission-portal
 
 # (Optional) Create virtual environment
@@ -186,7 +186,7 @@ The test suite in [`tests/test_submission.py`](file:///C:/Users/hh/.gemini/antig
 The generated `test-report.json` satisfies all items specified in Requirement 4:
 ```json
 {
-  "repository": "afzanoor344/assignment-submission-portal",
+  "repository": "afzanoor1285-gif/assignment-submission-portal",
   "branch": "main",
   "commit_sha": "7f8b91a2c3d4e5f6...",
   "pipeline_run_id": "1849203921",
@@ -293,7 +293,7 @@ git push origin main
   ```
 - **Guarantee:** If tests fail in the `test` job, the `deploy-pages` job is skipped. The previous deployed live site remains completely intact.
 - **Frontend Fallback:** The static frontend in `docs/` detects standalone hosting on GitHub Pages and runs interactive demo mode using browser storage (`localStorage`), allowing full evaluation directly in the browser!
-- **Live Deployed URL:** `https://<YOUR-USERNAME>.github.io/<YOUR-REPO-NAME>/`
+- **Live Deployed URL:** `https://afzanoor1285-gif.github.io/assignment-submission-portal/`
 
 ### 2. Automated Email Test Report (+5 Marks)
 - Implemented in `test_runner.py` using standard secure SMTP (TLS).
