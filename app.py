@@ -97,6 +97,12 @@ def index():
     return send_from_directory(app.static_folder, "index.html")
 
 
+@app.route("/<path:filename>")
+def serve_static(filename):
+    """Serve static assets directly from root URL."""
+    return send_from_directory(app.static_folder, filename)
+
+
 @app.route("/api/submissions", methods=["GET"])
 def get_submissions():
     """Retrieve all saved submissions."""
